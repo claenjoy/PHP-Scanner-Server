@@ -22,7 +22,40 @@ edit from the original realease : https://github.com/GM-Script-Writer-62850/PHP-
 -ADF support for HP printer/scanner, tested and working on  HP LaserJet 100 colorMFP M175nw
 -edit also the interface and made it simple (most of the extra functions are comment to make compatible with ADF)
 -only file PDF type output after scan
- 
+
+info about my printer: 
+scanimage -help net:"ip_server":hpaio:/net/HP_LaserJet_100_colorMFP_M175nw?ip="ip_printer"    
+Hewlett-Packard HP_LaserJet_100_colorMFP_M175nw
+
+Options specific to device `hpaio:/net/HP_LaserJet_100_colorMFP_M175nw?ip="ip_printer""':
+  Scan mode:
+    --mode Lineart|Gray|Color [Color]
+        Selects the scan mode (e.g., lineart, monochrome, or color).
+    --resolution 75|100|150|200|300|600|1200dpi [75]
+        Sets the resolution of the scanned image.
+    --source Flatbed|ADF [Flatbed]
+        Selects the scan source (such as a document-feeder).
+  Advanced:
+    --contrast -127..127 [0]
+        Controls the contrast of the acquired image.
+    --compression None|JPEG [JPEG]
+        Selects the scanner compression method for faster scans, possibly at
+        the expense of image quality.
+    --jpeg-quality 0..100 [inactive]
+        Sets the scanner JPEG compression factor. Larger numbers mean better
+        compression, and smaller numbers mean better image quality.
+  Geometry:
+    -l 0..215.9mm [0]
+        Top-left x position of scan area.
+    -t 0..296.926mm [0]
+        Top-left y position of scan area.
+    -x 0..215.9mm [215.9]
+        Width of scan-area.
+    -y 0..296.926mm [296.926]
+        Height of scan-area.
+
+Type ``scanimage --help -d DEVICE'' to get list of all options for DEVICE.
+
 
 
 PHP Linux Scanner Server is a PHP web application that allows you to share multiple scanners (supported by SANE) over a network.
