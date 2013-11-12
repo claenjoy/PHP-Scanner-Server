@@ -127,6 +127,12 @@ Enabling Auto-Deletion of old scans:
 
 	It will Check every 5 minutes for scans older than 1 hour (3600 seconds value
 	in cleaner.php) and deletes them.
+	
+	Permanent solution:
+	edit /etc/crontab
+	and add this line
+		*/5 * * * * root  php -f /path/to/cleaner.php
+	
 
 Frequently asked questions/issues:
 	The brightness and contrast options do not work on lucid lynx.
