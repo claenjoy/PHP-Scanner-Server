@@ -1,97 +1,109 @@
-PHP Linux Scanne Server
+PHP Linux Scanner Server
 	by pqwoerituytrueiwoq (at) ubuntuforums.org
 Based on Linux Scanner Server 1.2 Beta
 	by PHiLLIP KLiEWER (http://scannerserver.online02.com)
 
 Released under the GPL 2.0
 
-This uses 3 other projects that are included they deserve some credit for there work
-	imgareaselect
-		http://odyniec.net/projects/imgareaselect/
-	phpmailer
-		https://code.google.com/a/apache-extras.org/p/phpmailer/
-	scanner-access-enabler
-		http://jhansonxi.blogspot.com/2010/10/scanner-access-enabler.html
-
-Last Update: 06 June 2013
-For Version: 1.2-9.1  ADF support HP printer
-
-tested on 3.5.0-31-generic / x86_64  GNU/Linux / Ubuntu 12.04.2 LTS Precise /  imagemagick  8:6.6.9.7-5ubuntu3.2 
-edit from the original realease : https://github.com/GM-Script-Writer-62850/PHP-Scanner-Server
-
--ADF support for HP printer/scanner, tested and working on  HP LaserJet 100 colorMFP M175nw
--edit also the interface and made it simple (most of the extra functions are comment to make compatible with ADF)
--only file PDF type output after scan
-
-info about my printer: 
-scanimage -help net:"ip_server":hpaio:/net/HP_LaserJet_100_colorMFP_M175nw?ip="ip_printer"    
-Hewlett-Packard HP_LaserJet_100_colorMFP_M175nw
-
-Options specific to device `hpaio:/net/HP_LaserJet_100_colorMFP_M175nw?ip="ip_printer""':
-  Scan mode:
-    --mode Lineart|Gray|Color [Color]
-        Selects the scan mode (e.g., lineart, monochrome, or color).
-    --resolution 75|100|150|200|300|600|1200dpi [75]
-        Sets the resolution of the scanned image.
-    --source Flatbed|ADF [Flatbed]
-        Selects the scan source (such as a document-feeder).
-  Advanced:
-    --contrast -127..127 [0]
-        Controls the contrast of the acquired image.
-    --compression None|JPEG [JPEG]
-        Selects the scanner compression method for faster scans, possibly at
-        the expense of image quality.
-    --jpeg-quality 0..100 [inactive]
-        Sets the scanner JPEG compression factor. Larger numbers mean better
-        compression, and smaller numbers mean better image quality.
-  Geometry:
-    -l 0..215.9mm [0]
-        Top-left x position of scan area.
-    -t 0..296.926mm [0]
-        Top-left y position of scan area.
-    -x 0..215.9mm [215.9]
-        Width of scan-area.
-    -y 0..296.926mm [296.926]
-        Height of scan-area.
-
-Type ``scanimage --help -d DEVICE'' to get list of all options for DEVICE.
-
-
+Last Update: 13/02/2014 (Month/Day/Year)
+For Version: 1.3
 
 PHP Linux Scanner Server is a PHP web application that allows you to share multiple scanners (supported by SANE) over a network.
 
-the following packages need to be installed:
-* imagemagick (6.5.9+)  - For image conversion
-* sane-utils            - For accessing scanners
-* tesseract-ocr         - For image to text conversion
-+ tesseract-ocr-eng     - English language file for tesseract
-+ tesseract-ocr-deu     - German language file for tesseract
-+ tesseract-ocr-deu-f   - German fraktur language file for tesseract
-+ tesseract-ocr-fra     - French language file for tesseract
-+ tesseract-ocr-ita     - Italian language file for tesseract
-+ tesseract-ocr-nld     - Dutch language file for tesseract
-+ tesseract-ocr-por     - Portuguese language file for tesseract
-+ tesseract-ocr-spa     - Spanish language file for tesseract
-+ tesseract-ocr-vie     - Vietnamese language file for tesseract
-* apache2               - a web server
-* php5                  - for running php
-+ php5-curl             - for uploading scans to imgur.com
-_ php5-cli              - for running php from command line
-_ curl                  - for making url request via command line through the network (alternative to php5-cli)
-+ tar                   - for downloading a copy of PHP Linux Scanner Server in .tar.bz2 format (link in footer)
-+ zip                   - for downloading a compressed scan
-+ php-fpdf              - for downloading a pdf file
-+ libpaper-utils        - for detecting paper sizes
+The following packages need to be installed:
+* imagemagick (6.5.9+)   - For image conversion
+* sane-utils             - For accessing scanners
+* tesseract-ocr          - For image to text conversion
+* apache2                - a web server
+* php5                   - For running php
+* coreutils              - For various puropses, not having this would probally result in a unusable system
++ php5-curl              - For uploading scans to imgur.com
++ tar                    - For downloading a copy of PHP Linux Scanner Server in .tar.bz2 format (link in footer)
++ zip                    - For downloading a compressed scan
++ php-fpdf               - For downloading a pdf file
++ libpaper-utils         - For detecting paper sizes
++ sed                    - Used in the fallback method of detecting tesseract languages
++ grep                   - Used in the fallback method of detecting tesseract languages
+_ php5-cli               - For running php from command line
+_ curl                   - For making url request via command line through the network (alternative to php5-cli)
+_ tesseract-ocr-eng      - English language file for tesseract
+_ tesseract-ocr-equ      - Equations file for tesseract
+_ tesseract-ocr-osd      - Script and Orientation file for tesseract
+_ tesseract-ocr-afr      - Afrikaans language file for tesseract
+_ tesseract-ocr-ara      - Arabic language file for tesseract
+_ tesseract-ocr-aze      - Azerbaijani language file for tesseract
+_ tesseract-ocr-bel      - Belarusian language file for tesseract
+_ tesseract-ocr-ben      - Bengali language file for tesseract
+_ tesseract-ocr-bul      - Bulgarian language file for tesseract
+_ tesseract-ocr-cat      - Catalan language file for tesseract
+_ tesseract-ocr-ces      - Czech language file for tesseract
+_ tesseract-ocr-chi-sim  - Simplified Chinese language file for tesseract
+_ tesseract-ocr-chi-tra  - Traditional Chinese language file for tesseract
+_ tesseract-ocr-chr      - Cherokee language file for tesseract
+_ tesseract-ocr-dan      - Danish language file for tesseract
+_ tesseract-ocr-deu      - German language file for tesseract
+_ tesseract-ocr-deu-frak - German Fraktur language file for tesseract
+_ tesseract-ocr-ell      - Greek language file for tesseract
+_ tesseract-ocr-enm      - Middle English language file for tesseract
+_ tesseract-ocr-epo      - Esperanto language file for tesseract
+_ tesseract-ocr-est      - Estonian language file for tesseract
+_ tesseract-ocr-eus      - Basque language file for tesseract
+_ tesseract-ocr-fin      - Finnish language file for tesseract
+_ tesseract-ocr-fra      - French language file for tesseract
+_ tesseract-ocr-frk      - Frankish language file for tesseract
+_ tesseract-ocr-frm      - Middle French language file for tesseract
+_ tesseract-ocr-glg      - Galician language file for tesseract
+_ tesseract-ocr-heb      - Hebrew language file for tesseract
+_ tesseract-ocr-hin      - Hindi language file for tesseract
+_ tesseract-ocr-hrv      - Croatian language file for tesseract
+_ tesseract-ocr-hun      - Hungarian language file for tesseract
+_ tesseract-ocr-ind      - Indonesian language file for tesseract
+_ tesseract-ocr-isl      - Icelandic language file for tesseract
+_ tesseract-ocr-ita      - Italian language file for tesseract
+_ tesseract-ocr-ita-old  - Old Italian language file for tesseract
+_ tesseract-ocr-jpn      - Japanese language file for tesseract
+_ tesseract-ocr-kan      - Kannada language file for tesseract
+_ tesseract-ocr-kor      - Korean language file for tesseract
+_ tesseract-ocr-lav      - Latvian language file for tesseract
+_ tesseract-ocr-lit      - Lithuanian language file for tesseract
+_ tesseract-ocr-mal      - Malayalam language file for tesseract
+_ tesseract-ocr-mkd      - Macedonian language file for tesseract
+_ tesseract-ocr-mlt      - Maltese language file for tesseract
+_ tesseract-ocr-msa      - Malay language file for tesseract
+_ tesseract-ocr-nld      - Dutch language file for tesseract
+_ tesseract-ocr-nor      - Norwegian language file for tesseract
+_ tesseract-ocr-pol      - Polish language file for tesseract
+_ tesseract-ocr-por      - Portuguese language file for tesseract
+_ tesseract-ocr-ron      - Romanain language file for tesseract
+_ tesseract-ocr-rus      - Russian language file for tesseract
+_ tesseract-ocr-slk      - Slovak language file for tesseract
+_ tesseract-ocr-slk-frak - Slovak Fractur language file for tesseract
+_ tesseract-ocr-slv      - Slovenian language file for tesseract
+_ tesseract-ocr-spa      - Spanish language file for tesseract
+_ tesseract-ocr-spa-old   - Old Spanish language file for tesseract
+_ tesseract-ocr-sqi      - Albanian language file for tesseract
+_ tesseract-ocr-srp      - Serbian language file for tesseract
+_ tesseract-ocr-swa      - Swahili language file for tesseract
+_ tesseract-ocr-swe      - Swedish language file for tesseract
+_ tesseract-ocr-tam      - Tamil language file for tesseract
+_ tesseract-ocr-tel      - Telugu language file for tesseract
+_ tesseract-ocr-tgl      - Tagalog language file for tesseract
+_ tesseract-ocr-tha      - Thai language file for tesseract
+_ tesseract-ocr-tur      - Turkish language file for tesseract
+_ tesseract-ocr-ukr      - Ukranian language file for tesseract
+_ tesseract-ocr-vie      - Vietnamese language file for tesseract
+_ fortune                - For displaying fortunes in the debug console
+_ cowsay                 - For wrapping fortunes in ASCII art
 	* Mandatory
 	+ Recommended for full functionality
 	_ Optional
 
 	Some of these will likely already be installed
 
-	sudo apt-get install imagemagick sane-utils apache2 php5 php5-curl tesseract-ocr tesseract-ocr-* tar zip php-fpdf libpaper-utils
+	sudo apt-get install imagemagick sane-utils apache2 php5 php5-curl tesseract-ocr tar zip php-fpdf libpaper-utils grep sed coreutils
 
 Permissions:
-	The user www-data needs write permissions to the following folders (Depending on how you downloaded this you may need to create these directories)
+	The user www-data needs write permissions to the following folders
 		./scans
 		./config
 		./config/parallel
@@ -111,28 +123,22 @@ Supported Browsers:
 		http://www.opera.com/browser/
 	IE 9+
 		http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages
-	IE 6-8 with google chrome crame installed
+	IE 6-8 with google chrome frame installed
 		http://code.google.com/chrome/chromeframe/
 
 Enabling Auto-Deletion of old scans:
 	cleaner.php: Old scan auto-deletion tool.
-	http://ubuntuforums.org/showpost.php?p=10294835&postcount=37
+		http://ubuntuforums.org/showpost.php?p=10294835&postcount=37
 
 	Basically run this command
 		crontab -e
-	then add this line (if you need root here use sudo crontab -e)
+	then add this line (if you need root here use `sudo crontab -e`)
 		*/5 * * * * php -f /path/to/cleaner.php
 	or this line (Will not require root unless yuo want it to work when you are not loged in)
 		*/5 * * * * curl http://localhost/path/to/cleaner.php
 
 	It will Check every 5 minutes for scans older than 1 hour (3600 seconds value
 	in cleaner.php) and deletes them.
-	
-	Permanent solution:
-	edit /etc/crontab
-	and add this line
-		*/5 * * * * root  php -f /path/to/cleaner.php
-	
 
 Frequently asked questions/issues:
 	The brightness and contrast options do not work on lucid lynx.
@@ -169,9 +175,10 @@ Frequently asked questions/issues:
 	I see my scanner with the command "scanimage -L" but it is not being detected
 		This is a permissions issue (and a royal pita)
 			http://jhansonxi.blogspot.com/2010/10/scanner-access-enabler.html
-		If the site goes out the script is included with this 1.2 lacks a desktop file
+		If that site goes the access enabler is included with this (1.2 lacks a desktop file)
 			scanner-access-enabler-1.1.tar.bz2 (http://www.mediafire.com/?86e6ykeueodu7tl)
 			scanner-access-enabler-1.2.tar.bz2 (http://www.mediafire.com/?p1plimo2yf31kl3)
+			scanner-access-enabler-1.4.tar.bz2 (http://www.mediafire.com/?4r1aw9ix9ayb0u0)
 	Why can't I change the orientation on the scan page
 		because the selected paper size will not fit in the scanner one way
 	Why is the pdf download not working I keep getting a file with a error in it
@@ -183,7 +190,7 @@ Credit where credit is due:
 	pqwoerituytrueiwoq (at) ubuntuforums.org
 		Conversion/upgrade/security fixes/cleanup
 	jhansonxi (at) ubuntuforums.org
-		Original CGI cleanup prior to conversion/scanner-access-enabler-1.2.tar.bz2
+		Original CGI cleanup prior to conversion and scanner-access-enabler-*.tar.bz2
 	Everaldo Coelho
 		Icons (Crystal Clear set)
 	ajaxload.info
