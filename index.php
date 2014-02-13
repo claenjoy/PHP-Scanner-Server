@@ -5,7 +5,7 @@ $Fortune=true;// Enable/disable fortunes in the debug console
 // Sorry for the lack of explanations in the code feel free to ask what something does
 
 $NAME="PHP Scanner Server";
-$VER="1.2-9.1";
+$VER="1.3";
 $SAE_VER="1.4"; // scanner access enabler version
 
 # ****************
@@ -707,7 +707,7 @@ else{
 			$file='{}';
 		include "inc/scan.php";
 	}
-	echo '<script type="text/javascript">scanReset();</script>';
+	//echo '<script type="text/javascript">scanReset();</script>';
 	if(strlen($ACTION)>0){ # Only update values back to form if they aren't empty
 		Put_Values();
 	}
@@ -831,8 +831,8 @@ else{
 			//$BATCH='--source ADF ';   
 			$tmpdir="scan-".  substr(md5(rand()),0,7);
 			exe("cd /tmp; mkdir $tmpdir;cd $tmpdir",true);
-			exe(" cd /tmp/$tmpdir/; scanimage -d \"$DEVICE\"  --resolution $QUALITY --mode $MODE   --batch --source ADF --format=png " ,true);
-			exe("cd /tmp/$tmpdir/;convert * output.mng",true);  # Merge png file to single file 
+			exe(" cd /tmp/$tmpdir/; scanimage -d \"$DEVICE\"  --resolution $QUALITY --mode $MODE --batch --source ADF --format=png " ,true);
+			exe("cd /tmp/$tmpdir/;convert `ls  *.pnm  | sort -V` output.mng",true);  # Merge png file to single file 
 			
 			
 			$FILENAME=date("M_j_Y~G-i-s");
@@ -845,11 +845,11 @@ else{
 			for ($i = 1; $i <= $howmany; $i++) {
 				exe("convert \"/tmp/$tmpdir/out$i.pnm\" -scale  215x296 \"/tmp/$tmpdir/out$i.jpg\"",true);
 			}
-		     exe("cd /tmp/$tmpdir/;montage  *.jpg -tile 2x  -frame 5  -geometry +0+0 output.jpg",true);
+		     exe("cd /tmp/$tmpdir/;montage  `ls *.jpg  | sort -V` -tile 2x  -frame 5  -geometry +0+0 output.jpg",true);
              $P_FILENAME="Preview_$SCANNER"."_"."$FILENAME.jpg";
              exe("cp /tmp/$tmpdir/output.jpg scans/$P_FILENAME" ,true);
              Update_Preview("scans/$P_FILENAME");
-			 exe("convert  \"/tmp/$tmpdir/output.mng\"    \"scans/$S_FILENAME\"; rm -rf /tmp/$tmpdir",true);
+			 exe("convert  \"/tmp/$tmpdir/output.mng\"    \"scans/$S_FILENAME\"; rm -rf /tmp/$tmpdir ",true);
 		} else 
 		{
   	    exe("scanimage -d \"$DEVICE\"  --resolution $QUALITY --mode $MODE --format=ppm $BATCH> \"/tmp/scan_file$SCANNER.ppm\"",false);
