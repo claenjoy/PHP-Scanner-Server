@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><?php
-//error_reporting(-1); // reports all errors
-//ini_set("display_errors", "1"); // shows all errors
+error_reporting(-1); // reports all errors
+//ini_set("display_errors", "1"); // shows all errors on webinterface
 ini_set("log_errors", 1);
 ini_set("error_log", "/tmp/php-error.log");
 // Warning is displayed if there is less then the anmout specifyed
 $FreeSpaceWarn=100;// In Megabytes
-$Fortune=false;// Enable/disable fortunes in the debug console
+$Fortune=true;// Enable/disable fortunes in the debug console
 // Sorry for the lack of explanations in the code feel free to ask what something does
 
 $NAME="PHP Scanner Server";
@@ -891,8 +891,6 @@ else{
 
 		# Generate Preview Image
 		exe("convert \"/tmp/scan_file$SCANNER.ppm\" -scale 450x471 \"scans/$P_FILENAME\"",true);
-		
-	
 		# Remove Crop Option / set last scan / remember last orientation
 		echo '<script type="text/javascript">';
 		if(($WIDTH!="0"&&$HEIGHT!="0")||$ROTATE!="0"){
@@ -904,8 +902,8 @@ else{
 				"Set_Cookie( 'scanner', '$SCANNER', 1, '/', '', '' );";
 		}
 		$ORNT=($ORNT==''?'vert':$ORNT);
-		echo "var ornt=document.createElement('input');ornt.name='ornt0';ornt.value='$ORNT';ornt.type='hidden';document.scanning.appendChild(ornt);".
-			"var p=document.createElement('p');p.innerHTML='<small>Changing orientation will void select region.</small>';document.getElementById('opt').appendChild(p);</script>";
+		//echo "var ornt=document.createElement('input');ornt.name='ornt0';ornt.value='$ORNT';ornt.type='hidden';document.scanning.appendChild(ornt);".
+			//"var p=document.createElement('p');p.innerHTML='<small>Changing orientation will void select region.</small>';document.getElementById('opt').appendChild(p);</script>";
         
 		# Convert scan to file type
 		if($FILETYPE=="txt"){
