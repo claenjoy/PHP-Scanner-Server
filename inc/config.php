@@ -89,8 +89,12 @@ Select a Color:
 </div>
 
 <div class="box">
-<h2>Debug Log</h2>
-<p>
+<h2>Debug Console</h2>
+<p><?php
+if(isset($Fortune)){
+	echo '<a href="javascript:void(\'toggleFortune\')" onclick="this.textContent=toggleFortune(this.textContent)?\'Hide\':\'Show\';">'.($_COOKIE["fortune"]?'Hide':'Show').'</a> fortunes. (Refresh to apply)<br/>';
+}
+?>
 <a href="javascript:void('toggleDebug')" id="debug-link" onclick="this.textContent=toggleDebug(false)?'Hide':'Show';"><?php
 if(isset($_COOKIE["debug"])){
 	if($_COOKIE["debug"]=='true'){

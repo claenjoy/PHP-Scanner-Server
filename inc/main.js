@@ -366,7 +366,7 @@ function scanReset(){
 	sendE(document.scanning.size,'change');
 	sendE(document.scanning.filetype,'change');
 }
-/*function lastCordsChange(json,state){
+function lastCordsChange(json,state){
 	// This is related to lines 52, 69-78,219,221, 223, and 225 of scan.php it is a attept to add a option is use the last scan's coordinates (incomplete and I changed my mind on making it)
 	// It will still need to disabled when/if hte scanner is changed and including the coords at page load is buged and attempting to scan results in a invalid input security error
 	if(state){
@@ -380,7 +380,7 @@ function scanReset(){
 		storeRegion(null,{"width":0,"height":0,"x1":0,"y1":0,"x2":0,"y2":0});
 		document.scanning.size.removeAttribute('disabled');
 	}
-}*/
+}
 function disableIcons(){// Converts disabled icons to act like disabled icons
 	// not all browsers support efficient code
 	try{// most efficient
