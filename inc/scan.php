@@ -33,9 +33,8 @@
 
 
 
-
 <div class="side_box" id="opt">
-	
+
 <h2>Scanning Options</h2>
 
 <div class="label">
@@ -55,7 +54,7 @@ for(var i=0,max=dpi.length;i<max;i++){
 Size:
 </div>
 <div class="control">
-<div class="ie_276228"><select <?php //echo ((($WIDTH=="0"||$WIDTH==NULL)&&($HEIGHT=="0"||$HEIGHT==NULL))===false?'disabled="disabled" ':''); ?>name="size" onchange="paperChange(this);">
+<div class="ie_276228"><select <?php echo ((($WIDTH=="0"||$WIDTH==NULL)&&($HEIGHT=="0"||$HEIGHT==NULL))===false?'disabled="disabled" ':''); ?>name="size"  onchange="paperChange(this);">
 <option value="full">Full Scan</option><?php
 if(file_exists("config/paper.json")){
 	$paper=json_decode(file_get_contents("config/paper.json"));
@@ -69,7 +68,8 @@ else{
 }
 ?>
 </select></div>
-<script type="text/javascript">paper=<?php echo json_encode($paper);?></script>
+<script type="text/javascript"> //paper=<?php //echo json_encode($paper);?></script>
+
 </div>
 
 <?php
@@ -132,8 +132,8 @@ Source:
 </div>
 
 
-<!--
-<div class="side_box">
+
+<div class="side_box" id="OptOpt">
 <h2>Output Options</h2>
 
 <div class="label">
@@ -197,11 +197,11 @@ for(var i=0;i<=200;i+=10){
 
 
 <div class="label">
-	File Type:
+File Type:
 </div>
-	<div class="control">
-		<select name="filetype" onchange="fileChange(this.value)">
-		<option value="png">*.png</option>
+<div class="control">
+<select name="filetype" onchange="fileChange(this.value)">
+<option value="png">*.png</option>
 <option value="jpg">*.jpg</option>
 <option value="tiff">*.tiff</option>
 <option value="txt">*.txt</option>
@@ -218,17 +218,12 @@ Language:
 <?php include('inc/langs.php'); ?>
 </select>
 </div>
-
-
 </div>
 
 <p><small>Do not rotate unless this is the final scan.</small></p> 
 </div>
 
--->
 
-
-<!--
 
 <div class="side_box" id="sel">
 <h2>
@@ -253,7 +248,7 @@ Select Region
 </p>
 </div>
 
--->
+
 
 
 
@@ -262,11 +257,11 @@ Select Region
 <h2>
 Scan Image
 </h2>
-<p align="center"><input type="submit" value="Scan Image" name="action"><input name="reset" type="reset" value="Reset Options" onclick="clearRegion(ias,false);setTimeout(scanReset,1);"/></p>
+<p align="center"><input type="submit" value="Scan Image" name="action"><!--<input name="reset" type="reset" value="Reset Options" onclick="clearRegion(ias,false);setTimeout(scanReset,10);"/> --></p>
 </div>
 
-<!-- Save Settings 
-<div class="side_box">
+<!-- Save Settings -->
+<div class="side_box" id="sb_sett">
 <h2>Settings</h2>
 <p>
 <input name="set_save" size="15" onkeypress="if(event.which==13||event.keyCode==13){this.nextSibling.click();return false;}"><input onclick="if(this.previousSibling.value==''){return false;}else{document.scanning.removeAttribute('onsubmit');}" type="submit" name="saveas" value="Save">
@@ -295,7 +290,7 @@ Scan Image
 </p>
 </div>
 
--->
+
 
 </form>
 

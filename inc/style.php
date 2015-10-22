@@ -636,7 +636,7 @@ code{
 #footer{
 	clear: both;
 	text-align: center;
-	height: 20px;
+	height: 30px;
 	margin: 0;
 	padding: 0;
 	border: 5px solid #<?php echo $BG_COLOR; ?>;
@@ -767,4 +767,17 @@ code{
 	-webkit-transition-property: opacity;
 	-webkit-transition-duration: 0.8s;
 	padding: 5px;
+}
+
+
+/* CUSTOM */
+
+#OptOpt{
+	display: none;
+}
+#sel {
+	display: none;
+}
+#sb_sett{	
+	display: none;
 }
