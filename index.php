@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><?php
-error_reporting(-1); // reports all errors
-ini_set("display_errors", "1"); // shows all errors
+//error_reporting(-1); // reports all errors
+//ini_set("display_errors", "1"); // shows all errors
 ini_set("log_errors", 1);
 ini_set("error_log", "/tmp/php-error.log");
 // Warning is displayed if there is less then the anmout specifyed
 $FreeSpaceWarn=100;// In Megabytes
-$Fortune=true;// Enable/disable fortunes in the debug console
+$Fortune=false;// Enable/disable fortunes in the debug console
 // Sorry for the lack of explanations in the code feel free to ask what something does
 
 $NAME="PHP Scanner Server";
@@ -673,7 +673,7 @@ else{
 		$langs=findLangs();
 		if(!validNum(Array($SCANNER,$BRIGHT,$CONTRAST,$SCALE,$ROTATE))||!in_array($LANG,$langs)||!in_array($QUALITY,explode("|",$CANNERS[$SCANNER]->{"DPI"}))){//security check
 			//echo "<h1>  No, you can not do that</h1>680 Input data is invalid and most likely an attempt to run malicious code on the server <i>denied<i/>";
-			Print_Message("No, you can not do that","680 Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
+			Print_Message("Scanner in Use","Keep calm and make more coffee",'center');
 			//Footer();
 			//echo '</body></html>';
 			//die();
