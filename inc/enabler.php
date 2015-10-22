@@ -2,7 +2,7 @@
 <p>
 If a scanner shows with <code>scanimage -L</code> and is not detected by the server scanner the problem is permission.<br/>
 To enable access <a href="http://ubuntuforums.org/member.php?u=162029">jhansonxi</a> has developed a application that will enable access a copy is included with the PHP Server Scanner.<br/>
-To install it <a href="scanner-access-enabler-1.2.tar.bz2">download the archive</a> and extract it. Then move the script to <code>/usr/local/bin/scanner-access-enabler</code> and set it for root:root ownership with rwxr-xr-x (0755) permissions.
+To install it <a href="scanner-access-enabler-<?php echo $SAE_VER; ?>.tar.bz2">download the archive</a> and extract it. Then move the script to <code>/usr/local/bin/scanner-access-enabler</code> and set it for root:root ownership with rwxr-xr-x (0755) permissions.
 Then move the destop menu entry to the <code>/usr/local/share/applications</code> directory with root:root ownership and rw-r--r-- (0644) permissions. The applicaion will now be under System -> Administration in Ubuntu.
 Some scanners will need to have this done every time you boot.<br/>
 If you have to run it every boot add <code>/usr/local/bin/scanner-access-enabler -s</code> before <code>exit 0</code> in <code>/etc/rc.local</code> on its own line and you are good to go.<br/><br/>
