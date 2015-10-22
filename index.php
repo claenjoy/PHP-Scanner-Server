@@ -1,11 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><?php
+error_reporting(-1); // reports all errors
+ini_set("display_errors", "1"); // shows all errors
+ini_set("log_errors", 1);
+ini_set("error_log", "/tmp/php-error.log");
 // Warning is displayed if there is less then the anmout specifyed
 $FreeSpaceWarn=100;// In Megabytes
 $Fortune=true;// Enable/disable fortunes in the debug console
 // Sorry for the lack of explanations in the code feel free to ask what something does
 
 $NAME="PHP Scanner Server";
-$VER="1.3";
+$VER="1.3.1";
 $SAE_VER="1.4"; // scanner access enabler version
 
 # ****************
@@ -389,8 +393,8 @@ else if($PAGE=="Config"){
 			($save?'':'</td></tr><tr><td colspan="2" style="color:red;font-weight:bold;text-align:center;">Bad news: <code>'.$user.'</code> does not have permission to write files to the <code>'.html(getcwd()).'/config</code> folder.<br/><code>sudo chown '.$user.' '.html(getcwd()).'/config</code>').
 			'</td></tr>';
 		$CANNERS.='</tbod></table>';
-			$CANNERS.='<small>It looks like you have more than one scanner. You can change the default scanner on the <a href="index.php?page=Device%20Notes">Scanner List</a> page if you want.</small>';
 		if($max>1){
+			$CANNERS.='<small>It looks like you have more than one scanner. You can change the default scanner on the <a href="index.php?page=Device%20Notes">Scanner List</a> page if you want.</small>';
 		}
 		if(count($OP)==0)
 			Print_Message("No Scanners Found","There were no scanners found on this server. Make sure the scanners are plugged in and turned on. The scanner must also be supported by SANE.<br/>".
@@ -665,15 +669,18 @@ else{
 	else{
 		$CANNERS=json_decode('[]');
 	}
-	//if(strlen($SAVEAS)>0||$ACTION=="Scan Image"){
-	//	$langs=findLangs();
-	//	if(!validNum(Array($SCANNER,$BRIGHT,$CONTRAST,$SCALE,$ROTATE))||!in_array($LANG,$langs)||!in_array($QUALITY,explode("|",$CANNERS[$SCANNER]->{"DPI"}))){//security check
-	//		echo "<h1>671 No, you can not do that</h1>Input data is invalid and most likely an attempt to run malicious code on the server <i>denied<i/>";
-	//		Footer();
-	//		echo '</body></html>';
-	//		die();
-	//	}
-	//}
+    if(strlen($SAVEAS)>0||$ACTION=="Scan Image"){
+		$langs=findLangs();
+		if(!validNum(Array($SCANNER,$BRIGHT,$CONTRAST,$SCALE,$ROTATE))||!in_array($LANG,$langs)||!in_array($QUALITY,explode("|",$CANNERS[$SCANNER]->{"DPI"}))){//security check
+			//echo "<h1>  No, you can not do that</h1>680 Input data is invalid and most likely an attempt to run malicious code on the server <i>denied<i/>";
+			Print_Message("No, you can not do that","680 Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
+			//Footer();
+			//echo '</body></html>';
+			//die();
+			$ACTION="Do Not Scan";
+
+		}
+	}
 	if(strlen($SAVEAS)>0){ # Save settings to conf file
 		if(strlen($SET_SAVE)>0){
 			$ACTION="Save Set";
@@ -707,7 +714,7 @@ else{
 			$file='{}';
 		include "inc/scan.php";
 	}
-	//echo '<script type="text/javascript">scanReset();</script>';
+	echo '<script type="text/javascript">scanReset();</script>';
 	if(strlen($ACTION)>0){ # Only update values back to form if they aren't empty
 		Put_Values();
 	}
@@ -738,12 +745,12 @@ else{
 		   (count($sizes)!=2&&$SIZE!='full')||
 		   (!in_array($MODE,explode('|',$CANNERS[$SCANNER]->{"MODE"})))||
 		   ($FILETYPE!="txt"&&$FILETYPE!="png"&&$FILETYPE!="tiff"&&$FILETYPE!="jpg")){
-			/*Print_Message("741 No, you can not do that","Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
+			Print_Message("No, you can not do that","748 Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
 			echo '</body></html>';
-			die(); */
+			die(); 
 		} 
 		else if((!is_numeric($sizes[0])||!is_numeric($sizes[1]))&&$SIZE!='full'){
-			Print_Message("746No, you can not do that","Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
+			Print_Message("No, you can not do that","753 Input data is invalid and most likely an attempt to run malicious code on the server. <i>Denied<i/>",'center');
 			echo '</body></html>';
 			die();
 		}
@@ -822,21 +829,24 @@ else{
 			$SIZE_Y=$scanner_h;
 		}
 		$LAMP='';
-		/*if($CANNERS[$SCANNER]->{'LAMP'}===true){
-			$LAMP='--lamp-switch=yes --lamp-off-at-exit=yes ';
-		}*/
+		//if($CANNERS[$SCANNER]->{'LAMP'}===true){
+		//	$LAMP='--lamp-switch=yes --lamp-off-at-exit=yes ';
+		//}
                    
 		$BATCH='';
+		# Dated Filename for scan image & preview image
+		$FILENAME=date("M_j_Y~G-i-s");
+		$S_FILENAME="Scan_$SCANNER"."_"."$FILENAME.pdf";
+		$P_FILENAME="Preview_$SCANNER"."_"."$FILENAME.jpg";
 		if($ADF=="true"){
 			//$BATCH='--source ADF ';   
 			$tmpdir="scan-".  substr(md5(rand()),0,7);
 			exe("cd /tmp; mkdir $tmpdir;cd $tmpdir",true);
 			exe(" cd /tmp/$tmpdir/; scanimage -d \"$DEVICE\"  --resolution $QUALITY --mode $MODE --batch --source ADF --format=png " ,true);
-			exe("cd /tmp/$tmpdir/;convert `ls  *.pnm  | sort -V` output.mng",true);  # Merge png file to single file 
+			exe("cd /tmp/$tmpdir/;convert * output.mng",true);  # Merge png file to single file 
 			
 			
-			$FILENAME=date("M_j_Y~G-i-s");
-			$S_FILENAME="Scan_$SCANNER"."_"."$FILENAME.pdf";
+			
 			
 			exe("convert  \"/tmp/$tmpdir/output.mng\"    \"scans/$S_FILENAME\"",true); # convert the single 
 			#generete the preview file 
@@ -845,7 +855,7 @@ else{
 			for ($i = 1; $i <= $howmany; $i++) {
 				exe("convert \"/tmp/$tmpdir/out$i.pnm\" -scale  215x296 \"/tmp/$tmpdir/out$i.jpg\"",true);
 			}
-		     exe("cd /tmp/$tmpdir/;montage  `ls *.jpg  | sort -V` -tile 2x  -frame 5  -geometry +0+0 output.jpg",true);
+		     exe("cd /tmp/$tmpdir/;montage  *.jpg -tile 2x  -frame 5  -geometry +0+0 output.jpg",true);
              $P_FILENAME="Preview_$SCANNER"."_"."$FILENAME.jpg";
              exe("cp /tmp/$tmpdir/output.jpg scans/$P_FILENAME" ,true);
              Update_Preview("scans/$P_FILENAME");
@@ -879,17 +889,7 @@ else{
 			//	exe("convert \"/tmp/scan_file$SCANNER.ppm\" -scale $SCALE% \"/tmp/scan_file$SCANNER.ppm\"",true);
 			//}
 
-		# Dated Filename for scan image & preview image
-			$FILENAME=date("M_j_Y~G-i-s");
-			$S_FILENAME="Scan_$SCANNER"."_"."$FILENAME.pdf";
-			$P_FILENAME="Preview_$SCANNER"."_"."$FILENAME.jpg";
-			
-	
-
 		# Generate Preview Image
-
-
-			 
 		exe("convert \"/tmp/scan_file$SCANNER.ppm\" -scale 450x471 \"scans/$P_FILENAME\"",true);
 		
 	
@@ -934,15 +934,16 @@ else{
 	
 		else{*/	
 		
-	  if($ADF=="true"){
+	//  if($ADF=="true"){
 			Update_Links($S_FILENAME,$PAGE);
-		
-			
-		}else{  
+		     			Update_Preview("scans/$P_FILENAME");
 
-			Update_Links($S_FILENAME,$PAGE);
-			Update_Preview("scans/$P_FILENAME");
- 	} 
+			
+	//	}else{  
+
+	//		Update_Links($S_FILENAME,$PAGE);
+	//		Update_Preview("scans/$P_FILENAME");
+ //	} 
 
 		//}  
 
