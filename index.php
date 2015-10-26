@@ -888,7 +888,6 @@ else{
 			//if($SCALE!="100"){
 			//	exe("convert \"/tmp/scan_file$SCANNER.ppm\" -scale $SCALE% \"/tmp/scan_file$SCANNER.ppm\"",true);
 			//}
-
 		# Generate Preview Image
 		exe("convert \"/tmp/scan_file$SCANNER.ppm\" -scale 450x471 \"scans/$P_FILENAME\"",true);
 		# Remove Crop Option / set last scan / remember last orientation
@@ -902,8 +901,10 @@ else{
 				"Set_Cookie( 'scanner', '$SCANNER', 1, '/', '', '' );";
 		}
 		$ORNT=($ORNT==''?'vert':$ORNT);
-		//echo "var ornt=document.createElement('input');ornt.name='ornt0';ornt.value='$ORNT';ornt.type='hidden';document.scanning.appendChild(ornt);".
-			//"var p=document.createElement('p');p.innerHTML='<small>Changing orientation will void select region.</small>';document.getElementById('opt').appendChild(p);</script>";
+		echo "var ornt=document.createElement('input');ornt.name='ornt0';ornt.value='$ORNT';ornt.type='hidden';document.scanning.appendChild(ornt);".
+			"var p=document.createElement('p');
+			//p.innerHTML='<small>Changing orientation will void select region.</small>';
+			document.getElementById('opt').appendChild(p);</script>";
         
 		# Convert scan to file type
 		if($FILETYPE=="txt"){
@@ -933,8 +934,8 @@ else{
 		else{*/	
 		
 	//  if($ADF=="true"){
-			Update_Links($S_FILENAME,$PAGE);
-		     			Update_Preview("scans/$P_FILENAME");
+		Update_Links($S_FILENAME,$PAGE);
+		Update_Preview("scans/$P_FILENAME");
 
 			
 	//	}else{  
