@@ -843,7 +843,7 @@ else{
 			$tmpdir="scan-".  substr(md5(rand()),0,7);
 			exe("cd /tmp; mkdir $tmpdir;cd $tmpdir",true);
 			exe(" cd /tmp/$tmpdir/; scanimage -d \"$DEVICE\"  --resolution $QUALITY --mode $MODE --batch --source ADF --format=png " ,true);
-			exe("cd /tmp/$tmpdir/;convert * output.mng",true);  # Merge png file to single file 
+			exe("cd /tmp/$tmpdir/;convert `ls  *.pnm  | sort -V` output.mng",true);  # Merge png file to single file  and sort pages after number 10  order properly 9-10 avoid 1-10-11
 			
 			
 			
@@ -855,7 +855,7 @@ else{
 			for ($i = 1; $i <= $howmany; $i++) {
 				exe("convert \"/tmp/$tmpdir/out$i.pnm\" -scale  215x296 \"/tmp/$tmpdir/out$i.jpg\"",true);
 			}
-		     exe("cd /tmp/$tmpdir/;montage  *.jpg -tile 2x  -frame 5  -geometry +0+0 output.jpg",true);
+		     exe("cd /tmp/$tmpdir/;montage  `ls *.jpg  | sort -V` -tile 2x  -frame 5  -geometry +0+0 output.jpg",true); # Preview Merge png file to single file  and sort pages after number 10  order properly 9-10 avoid 1-10-11
              $P_FILENAME="Preview_$SCANNER"."_"."$FILENAME.jpg";
              exe("cp /tmp/$tmpdir/output.jpg scans/$P_FILENAME" ,true);
              Update_Preview("scans/$P_FILENAME");
